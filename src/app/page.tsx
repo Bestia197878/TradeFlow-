@@ -13,18 +13,15 @@ const navItems = [
 
 // Mock data for dashboard stats
 const stats = [
-  { label: "Total Balance", value: "$124,532.89", change: "+12.5%", positive: true },
-  { label: "Today's P&L", value: "+$2,341.56", change: "+3.2%", positive: true },
-  { label: "Open Positions", value: "3", change: "0", positive: true },
-  { label: "Win Rate", value: "67.8%", change: "+2.1%", positive: true },
+  { label: "Total Balance", value: "$40.00", change: "+0.0%", positive: true },
+  { label: "Today's P&L", value: "$0.00", change: "+0.0%", positive: true },
+  { label: "Open Positions", value: "0", change: "0", positive: true },
+  { label: "Win Rate", value: "0.0%", change: "+0.0%", positive: true },
 ];
 
 // Recent trades data
 const recentTrades = [
-  { id: 1, pair: "BTC/USDT", side: "BUY", amount: "0.25 BTC", price: "$42,350", pnl: "+$234.50", time: "2 min ago" },
-  { id: 2, pair: "ETH/USDT", side: "SELL", amount: "2.5 ETH", price: "$2,280", pnl: "+$89.20", time: "15 min ago" },
-  { id: 3, pair: "SOL/USDT", side: "BUY", amount: "50 SOL", price: "$98.50", pnl: "-$45.00", time: "1 hr ago" },
-  { id: 4, pair: "BTC/USDT", side: "SELL", amount: "0.1 BTC", price: "$42,500", pnl: "+$156.80", time: "3 hrs ago" },
+  { id: 1, pair: "BTC/USDT", side: "BUY", amount: "0.001 BTC", price: "$42,350", pnl: "$0.00", time: "Now" },
 ];
 
 export default function Dashboard() {
@@ -34,11 +31,11 @@ export default function Dashboard() {
 
   // Dynamic chart data based on period
   const chartData: Record<string, number[]> = {
-    "1H": [45, 52, 48, 55, 62, 58, 65, 72, 68, 75, 70, 78],
-    "1D": [30, 35, 42, 38, 45, 52, 48, 55, 62, 58, 65, 72],
-    "1W": [35, 45, 38, 52, 48, 65, 58, 72, 68, 85, 78, 92],
-    "1M": [20, 28, 35, 42, 38, 45, 52, 48, 55, 62, 58, 65],
-    "1Y": [15, 22, 18, 28, 35, 42, 38, 45, 52, 48, 55, 62],
+    "1H": [5, 6, 7, 8, 9, 8, 10, 11, 12, 11, 13, 14],
+    "1D": [4, 5, 6, 7, 8, 9, 8, 10, 11, 12, 13, 14],
+    "1W": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    "1M": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    "1Y": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
   };
 
   const currentChartData = chartData[chartPeriod] || chartData["1W"];
@@ -117,26 +114,26 @@ export default function Dashboard() {
                 <div className="space-y-4">
                   <div className="p-4 bg-neutral-900 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-emerald-500">◉</span>
-                      <span className="text-sm font-medium">Market Trend</span>
+                      <span className="text-blue-500">◉</span>
+                      <span className="text-sm font-medium">Ready to Trade</span>
                     </div>
-                    <p className="text-sm text-neutral-400">Bullish momentum detected on BTC. Consider increasing position size.</p>
+                    <p className="text-sm text-neutral-400">Bot configured for $40 USDT. Starting with conservative parameters.</p>
+                  </div>
+                  
+                  <div className="p-4 bg-neutral-900 rounded-lg">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-emerald-500">◉</span>
+                      <span className="text-sm font-medium">Risk Settings</span>
+                    </div>
+                    <p className="text-sm text-neutral-400">Max position: 25% ($10), Stop loss: 1%, Take profit: 2%</p>
                   </div>
                   
                   <div className="p-4 bg-neutral-900 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-amber-500">◉</span>
-                      <span className="text-sm font-medium">Risk Alert</span>
+                      <span className="text-sm font-medium">Capital Protection</span>
                     </div>
-                    <p className="text-sm text-neutral-400">Volatility increasing. Consider tightening stop loss.</p>
-                  </div>
-                  
-                  <div className="p-4 bg-neutral-900 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-blue-500">◉</span>
-                      <span className="text-sm font-medium">Signal</span>
-                    </div>
-                    <p className="text-sm text-neutral-400">RSI oversold on ETH. Potential buy opportunity in next 24h.</p>
+                    <p className="text-sm text-neutral-400">Daily loss limit: 2% ($0.80). Max drawdown: 5% ($2)</p>
                   </div>
                 </div>
               </div>
@@ -218,27 +215,8 @@ export default function Dashboard() {
               {/* Active Positions */}
               <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6">
                 <h3 className="text-lg font-medium mb-6">Active Positions</h3>
-                <div className="space-y-3">
-                  <div className="p-4 bg-neutral-900 rounded-lg flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">BTC/USDT</p>
-                      <p className="text-sm text-neutral-400">0.25 BTC @ $42,350</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-emerald-500">+$234.50</p>
-                      <button className="text-sm text-neutral-400 hover:text-white">Close</button>
-                    </div>
-                  </div>
-                  <div className="p-4 bg-neutral-900 rounded-lg flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">ETH/USDT</p>
-                      <p className="text-sm text-neutral-400">2.5 ETH @ $2,280</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-emerald-500">+$89.20</p>
-                      <button className="text-sm text-neutral-400 hover:text-white">Close</button>
-                    </div>
-                  </div>
+                <div className="text-center py-8 text-neutral-400">
+                  <p>No active positions. Start trading to open positions.</p>
                 </div>
               </div>
             </div>
@@ -260,21 +238,21 @@ export default function Dashboard() {
                 <div>
                   <p className="text-neutral-500 mb-2">Amount (BTC)</p>
                   <div className="space-y-1">
-                    <p>0.452</p>
-                    <p>1.230</p>
-                    <p>0.890</p>
-                    <p>2.100</p>
-                    <p>0.670</p>
+                    <p>0.001</p>
+                    <p>0.002</p>
+                    <p>0.005</p>
+                    <p>0.003</p>
+                    <p>0.001</p>
                   </div>
                 </div>
                 <div>
                   <p className="text-neutral-500 mb-2">Total</p>
                   <div className="space-y-1">
-                    <p>19,219.04</p>
-                    <p>52,287.30</p>
-                    <p>37,825.00</p>
-                    <p>89,229.00</p>
-                    <p>28,461.60</p>
+                    <p>42.52</p>
+                    <p>85.02</p>
+                    <p>212.50</p>
+                    <p>127.47</p>
+                    <p>42.48</p>
                   </div>
                 </div>
               </div>
@@ -288,18 +266,18 @@ export default function Dashboard() {
             <div className="grid grid-cols-3 gap-4">
               <div className="p-5 bg-neutral-900/50 border border-neutral-800 rounded-xl">
                 <p className="text-neutral-500 text-xs uppercase tracking-wider mb-2">Total Balance</p>
-                <p className="text-3xl font-medium">$124,532.89</p>
-                <p className="text-emerald-500 text-sm mt-2">+12.5%</p>
+                <p className="text-3xl font-medium">$40.00</p>
+                <p className="text-emerald-500 text-sm mt-2">+0.0%</p>
               </div>
               <div className="p-5 bg-neutral-900/50 border border-neutral-800 rounded-xl">
                 <p className="text-neutral-500 text-xs uppercase tracking-wider mb-2">Available</p>
-                <p className="text-3xl font-medium">$45,230.00</p>
-                <p className="text-neutral-400 text-sm mt-2">36.3%</p>
+                <p className="text-3xl font-medium">$40.00</p>
+                <p className="text-neutral-400 text-sm mt-2">100%</p>
               </div>
               <div className="p-5 bg-neutral-900/50 border border-neutral-800 rounded-xl">
                 <p className="text-neutral-500 text-xs uppercase tracking-wider mb-2">In Positions</p>
-                <p className="text-3xl font-medium">$79,302.89</p>
-                <p className="text-neutral-400 text-sm mt-2">63.7%</p>
+                <p className="text-3xl font-medium">$0.00</p>
+                <p className="text-neutral-400 text-sm mt-2">0%</p>
               </div>
             </div>
 
@@ -308,41 +286,15 @@ export default function Dashboard() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-4 bg-neutral-900 rounded-lg">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center text-black font-bold">₿</div>
+                    <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-black font-bold">$</div>
                     <div>
-                      <p className="font-medium">Bitcoin</p>
-                      <p className="text-sm text-neutral-400">BTC</p>
+                      <p className="font-medium">Tether</p>
+                      <p className="text-sm text-neutral-400">USDT</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium">0.85 BTC</p>
-                    <p className="text-sm text-neutral-400">$36,072.50</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between p-4 bg-neutral-900 rounded-lg">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">Ξ</div>
-                    <div>
-                      <p className="font-medium">Ethereum</p>
-                      <p className="text-sm text-neutral-400">ETH</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium">8.5 ETH</p>
-                    <p className="text-sm text-neutral-400">$19,380.00</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between p-4 bg-neutral-900 rounded-lg">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">◎</div>
-                    <div>
-                      <p className="font-medium">Solana</p>
-                      <p className="text-sm text-neutral-400">SOL</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium">150 SOL</p>
-                    <p className="text-sm text-neutral-400">$14,775.00</p>
+                    <p className="font-medium">40.00 USDT</p>
+                    <p className="text-sm text-neutral-400">$40.00</p>
                   </div>
                 </div>
               </div>
@@ -359,23 +311,23 @@ export default function Dashboard() {
                 <div className="space-y-4">
                   <div className="flex justify-between">
                     <span className="text-neutral-400">Total P&L</span>
-                    <span className="text-emerald-500">+$15,432.56</span>
+                    <span className="text-emerald-500">$0.00</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-neutral-400">Win Rate</span>
-                    <span>67.8%</span>
+                    <span>0.0%</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-neutral-400">Profit Factor</span>
-                    <span>2.34</span>
+                    <span>0.00</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-neutral-400">Sharpe Ratio</span>
-                    <span>1.82</span>
+                    <span>0.00</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-neutral-400">Max Drawdown</span>
-                    <span className="text-red-500">-8.5%</span>
+                    <span className="text-red-500">0.0%</span>
                   </div>
                 </div>
               </div>
@@ -386,28 +338,28 @@ export default function Dashboard() {
                   <div className="p-4 bg-neutral-900 rounded-lg">
                     <div className="flex justify-between mb-2">
                       <span className="font-medium">LSTM Model</span>
-                      <span className="text-emerald-500">+24.5%</span>
+                      <span className="text-neutral-400">Pending</span>
                     </div>
                     <div className="h-2 bg-neutral-800 rounded-full">
-                      <div className="h-2 bg-emerald-500 rounded-full" style={{ width: '78%' }}></div>
+                      <div className="h-2 bg-neutral-600 rounded-full" style={{ width: '0%' }}></div>
                     </div>
                   </div>
                   <div className="p-4 bg-neutral-900 rounded-lg">
                     <div className="flex justify-between mb-2">
                       <span className="font-medium">Random Forest</span>
-                      <span className="text-emerald-500">+18.2%</span>
+                      <span className="text-neutral-400">Pending</span>
                     </div>
                     <div className="h-2 bg-neutral-800 rounded-full">
-                      <div className="h-2 bg-blue-500 rounded-full" style={{ width: '65%' }}></div>
+                      <div className="h-2 bg-neutral-600 rounded-full" style={{ width: '0%' }}></div>
                     </div>
                   </div>
                   <div className="p-4 bg-neutral-900 rounded-lg">
                     <div className="flex justify-between mb-2">
                       <span className="font-medium">RL Agent</span>
-                      <span className="text-emerald-500">+31.8%</span>
+                      <span className="text-neutral-400">Pending</span>
                     </div>
                     <div className="h-2 bg-neutral-800 rounded-full">
-                      <div className="h-2 bg-purple-500 rounded-full" style={{ width: '92%' }}></div>
+                      <div className="h-2 bg-neutral-600 rounded-full" style={{ width: '0%' }}></div>
                     </div>
                   </div>
                 </div>
@@ -416,45 +368,8 @@ export default function Dashboard() {
 
             <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6">
               <h3 className="text-lg font-medium mb-6">Trade History</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-neutral-500 border-b border-neutral-800">
-                      <th className="text-left py-3">Date</th>
-                      <th className="text-left py-3">Pair</th>
-                      <th className="text-left py-3">Side</th>
-                      <th className="text-right py-3">Amount</th>
-                      <th className="text-right py-3">Price</th>
-                      <th className="text-right py-3">P&L</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-neutral-800">
-                      <td className="py-3">2026-02-26</td>
-                      <td>BTC/USDT</td>
-                      <td className="text-emerald-500">BUY</td>
-                      <td className="text-right">0.25 BTC</td>
-                      <td className="text-right">$42,350</td>
-                      <td className="text-right text-emerald-500">+$234.50</td>
-                    </tr>
-                    <tr className="border-b border-neutral-800">
-                      <td className="py-3">2026-02-26</td>
-                      <td>ETH/USDT</td>
-                      <td className="text-red-500">SELL</td>
-                      <td className="text-right">2.5 ETH</td>
-                      <td className="text-right">$2,280</td>
-                      <td className="text-right text-emerald-500">+$89.20</td>
-                    </tr>
-                    <tr className="border-b border-neutral-800">
-                      <td className="py-3">2026-02-26</td>
-                      <td>SOL/USDT</td>
-                      <td className="text-emerald-500">BUY</td>
-                      <td className="text-right">50 SOL</td>
-                      <td className="text-right">$98.50</td>
-                      <td className="text-right text-red-500">-$45.00</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div className="text-center py-8 text-neutral-400">
+                <p>No trades yet. Start trading to see your history.</p>
               </div>
             </div>
           </div>
@@ -590,7 +505,7 @@ export default function Dashboard() {
             <h2 className="text-2xl font-medium">
               {navItems.find((item) => item.id === activeNav)?.label || "Dashboard"}
             </h2>
-            <p className="text-neutral-500 text-sm mt-1">Welcome back, Trader</p>
+            <p className="text-neutral-500 text-sm mt-1">Portfolio: $40.00 USDT</p>
           </div>
           <div className="flex items-center gap-4">
             {/* Trade Control Buttons */}
