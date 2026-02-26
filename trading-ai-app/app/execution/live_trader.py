@@ -285,3 +285,70 @@ class LiveTrader:
             self.capital = state['capital']
             self.trades = state['trades']
             self.equity_curve = state['equity_curve']
+
+    def execute_manual_trade(
+        self, 
+        symbol: str, 
+        side: str, 
+        amount: float, 
+        price: Optional[float] = None
+    ) -> Dict:
+        """Execute a manual trade."""
+        current_price = price if price else self.exchange.get_market_price(symbol)
+        
+        order = {
+            'id': f"manual_{int(time.time() * 1000)}",
+            'timestamp': datetime.now(),
+            'symbol': symbol,
+            'side': side,
+            'action': side,
+            'amount': amount,
+            'price': current_price,
+            'value': amount * current_price,
+            'status': 'filled',
+            'fill_price': current_price,
+            'commission': amount * current_price * 0.001,
+            'type': 'manual'
+        }
+        
+        if side == 'buy' or side == 'buy':
+            if self.capital >= amount * current_price * 1.001:
+                self.capital -= amount * current_price * 1.001
+                self.position += amount
+            else:
+                order['status'] = 'rejected'
+                order['reason'] = 'insufficient capital'
+        elif side == 'sell':
+            if self.position >= amount:
+                self.capital += amount * current_price * 0.999
+                self.position -= amount
+            else:
+                order['status'] = 'rejected'
+                order['reason'] = 'insufficient position'
+        
+        if order['status'] == 'filled':
+            self.trades.append(order)
+            self.order_history.append(order)
+            
+            # Update equity
+            equity = self.capital + self.position * current_price
+            self.equity_curve.append(equity)
+        
+        return order
+
+    def get_trade_history(self, limit: int = 10) -> List[Dict]:
+        """Get recent trade history."""
+        trades = []
+        for trade in reversed(self.trades[-limit:]):
+            trades.append({
+                'id': trade.get('id', ''),
+                'symbol': trade.get('symbol', ''),
+                'side': trade.get('side', trade.get('action', '')),
+                'amount': trade.get('amount', trade.get('quantity', 0)),
+                'price': trade.get('fill_price', trade.get('price', 0)),
+                'value': trade.get('value', 0),
+                'pnl': trade.get('pnl', 0),
+                'time': trade.get('timestamp', datetime.now()).strftime('%H:%M:%S') if isinstance(trade.get('timestamp'), datetime) else str(trade.get('timestamp', '')),
+                'status': trade.get('status', '')
+            })
+        return trades

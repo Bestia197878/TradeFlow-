@@ -1,10 +1,13 @@
-# Active Context: Next.js Starter Template
+# Active Context: Next.js Starter Template with Trading AI
 
 ## Current State
 
-**Template Status**: ✅ Ready for development
+**Project Status**: ✅ Trading functionality ready
 
-The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. It's ready for AI-assisted expansion to build any type of application.
+The template now includes a fully functional cryptocurrency trading platform with:
+- FastAPI server for trading operations
+- React dashboard with real-time data
+- Integration between frontend and backend
 
 ## Recently Completed
 
@@ -16,71 +19,53 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] Recipe system for common features
 - [x] Trading AI app (Python backend)
 - [x] Minimalist dashboard UI with React
+- [x] FastAPI server for trading (server.py)
+- [x] Frontend-backend integration
+- [x] Real trading functionality with API
 
 ## Current Structure
 
 | File/Directory | Purpose | Status |
 |----------------|---------|--------|
-| `src/app/page.tsx` | Dashboard UI | ✅ Ready |
+| `src/app/page.tsx` | Dashboard UI with trading | ✅ Ready |
 | `src/app/layout.tsx` | Root layout | ✅ Ready |
 | `src/app/globals.css` | Global styles | ✅ Ready |
+| `src/app/lib/trading-api.ts` | API client | ✅ Ready |
+| `trading-ai-app/server.py` | Trading API server | ✅ Running |
 | `.kilocode/` | AI context & recipes | ✅ Ready |
 
-## Current Focus
+## How to Run
 
-The template is ready. Next steps depend on user requirements:
+1. Start the trading server:
+   ```bash
+   cd trading-ai-app && python3 server.py
+   ```
 
-1. What type of application to build
-2. What features are needed
-3. Design/branding preferences
+2. Start the Next.js frontend:
+   ```bash
+   bun dev
+   ```
 
-## Quick Start Guide
+3. Open http://localhost:3000
 
-### To add a new page:
+## Trading Features
 
-Create a file at `src/app/[route]/page.tsx`:
-```tsx
-export default function NewPage() {
-  return <div>New page content</div>;
-}
-```
+- **Dashboard**: Real-time portfolio stats, P&L, positions
+- **Trading Panel**: Buy/sell with multiple crypto pairs (BTC, ETH, SOL, BNB)
+- **Order Book**: Live market data
+- **AI Signals**: RSI-based trading signals
+- **Auto Trading**: Start/stop automated trading
+- **Risk Management**: Configurable stop-loss, take-profit
 
-### To add components:
+## API Endpoints
 
-Create `src/components/` directory and add components:
-```tsx
-// src/components/ui/Button.tsx
-export function Button({ children }: { children: React.ReactNode }) {
-  return <button className="px-4 py-2 bg-blue-600 text-white rounded">{children}</button>;
-}
-```
-
-### To add a database:
-
-Follow `.kilocode/recipes/add-database.md`
-
-### To add API routes:
-
-Create `src/app/api/[route]/route.ts`:
-```tsx
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  return NextResponse.json({ message: "Hello" });
-}
-```
-
-## Available Recipes
-
-| Recipe | File | Use Case |
-|--------|------|----------|
-| Add Database | `.kilocode/recipes/add-database.md` | Data persistence with Drizzle + SQLite |
-
-## Pending Improvements
-
-- [ ] Add more recipes (auth, email, etc.)
-- [ ] Add example components
-- [ ] Add testing setup recipe
+- `GET /api/status` - Trading status
+- `GET /api/market/prices` - Current prices
+- `GET /api/portfolio` - Portfolio info
+- `POST /api/trading/start` - Start trading
+- `POST /api/trading/stop` - Stop trading
+- `POST /api/trading/execute` - Manual trade
+- `GET /api/ai/signals` - AI trading signals
 
 ## Session History
 
@@ -89,3 +74,4 @@ export async function GET() {
 | Initial | Template created with base setup |
 | 2026-02-26 | Added trading-ai-app Python backend |
 | 2026-02-26 | Added minimalist React dashboard UI |
+| 2026-02-26 | Added FastAPI server and full trading integration |
