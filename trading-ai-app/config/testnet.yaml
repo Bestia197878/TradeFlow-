@@ -1,4 +1,6 @@
 # Testnet Configuration
+# Optimized for $40 USDT wallet - balanced for profitability
+# Key: Maximize opportunities while managing risk for small capital
 
 # Exchange settings
 exchange:
@@ -6,37 +8,37 @@ exchange:
   testnet: true
   simulate: true
 
-# Trading pair
+# Trading pair - Using BTC/USDT for liquidity
 symbol: BTC/USDT
-timeframe: 1h
+timeframe: 15m  # Changed from 1h to 15m for more opportunities
 
 # Trading settings
 initial_capital: 40
 commission: 0.001
 slippage: 0.0005
 
-# Update interval (seconds)
-interval: 60
+# Update interval (seconds) - Check every 15 minutes
+interval: 900
 
-# Strategy settings
+# Strategy settings - Optimized for small capital
 strategy:
   name: rsi
   rsi_period: 14
-  overbought_threshold: 70
-  oversold_threshold: 30
-  use_momentum: true
-  use_divergence: false
+  overbought_threshold: 72  # Slightly higher to avoid false signals
+  oversold_threshold: 28   # Slightly lower for better entries
+  use_momentum: true       # Filter false signals
+  use_divergence: false    # Keep simple for now
 
-# Risk management - Very conservative for small wallet (40 USDT)
+# Risk management - Optimized for $40 USDT
 risk:
-  max_position_size: 0.25      # 25% of capital ($10 max per position)
-  max_daily_loss: 0.02      # 2% max daily loss ($0.80)
-  max_drawdown: 0.05        # 5% max drawdown ($2)
-  max_leverage: 1.0         # No leverage
-  stop_loss_pct: 0.01       # 1% stop loss
-  take_profit_pct: 0.02    # 2% take profit
+  max_position_size: 0.50      # 50% of capital ($20 per trade - above minimum)
+  max_daily_loss: 0.05      # 5% max daily loss ($2) - allows more flexibility
+  max_drawdown: 0.10        # 10% max drawdown ($4) - don't lose too much
+  max_leverage: 1.0         # No leverage - too risky for small capital
+  stop_loss_pct: 0.02       # 2% stop loss - wider to avoid normal volatility
+  take_profit_pct: 0.04    # 4% take profit - need bigger moves for profit
   trailing_stop: false
-  trailing_stop_pct: 0.008
+  trailing_stop_pct: 0.015
 
 # Model settings (if using AI models)
 models:
