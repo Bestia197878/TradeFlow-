@@ -29,6 +29,18 @@ const recentTrades = [
 
 export default function Dashboard() {
   const [activeNav, setActiveNav] = useState("dashboard");
+  const [chartPeriod, setChartPeriod] = useState("1W");
+
+  // Dynamic chart data based on period
+  const chartData: Record<string, number[]> = {
+    "1H": [45, 52, 48, 55, 62, 58, 65, 72, 68, 75, 70, 78],
+    "1D": [30, 35, 42, 38, 45, 52, 48, 55, 62, 58, 65, 72],
+    "1W": [35, 45, 38, 52, 48, 65, 58, 72, 68, 85, 78, 92],
+    "1M": [20, 28, 35, 42, 38, 45, 52, 48, 55, 62, 58, 65],
+    "1Y": [15, 22, 18, 28, 35, 42, 38, 45, 52, 48, 55, 62],
+  };
+
+  const currentChartData = chartData[chartPeriod] || chartData["1W"];
 
   return (
     <div className="flex min-h-screen bg-black text-white">
@@ -72,7 +84,9 @@ export default function Dashboard() {
         {/* Header */}
         <header className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-2xl font-medium">Dashboard</h2>
+            <h2 className="text-2xl font-medium">
+              {navItems.find((item) => item.id === activeNav)?.label || "Dashboard"}
+            </h2>
             <p className="text-neutral-500 text-sm mt-1">Welcome back, Trader</p>
           </div>
           <div className="flex items-center gap-4">
@@ -186,10 +200,11 @@ export default function Dashboard() {
               {["1H", "1D", "1W", "1M", "1Y"].map((period) => (
                 <button
                   key={period}
+                  onClick={() => setChartPeriod(period)}
                   className={`px-3 py-1 text-xs rounded-lg transition-colors ${
-                    period === "1W"
+                    chartPeriod === period
                       ? "bg-neutral-700 text-white"
-                      : "text-neutral-500 hover:text-white"
+                      : "text-neutral-500 hover:text-white hover:bg-neutral-800"
                   }`}
                 >
                   {period}
@@ -200,10 +215,10 @@ export default function Dashboard() {
           
           {/* Simple chart visualization */}
           <div className="h-48 flex items-end gap-2">
-            {[35, 45, 38, 52, 48, 65, 58, 72, 68, 85, 78, 92].map((height, index) => (
+            {currentChartData.map((height, index) => (
               <div
                 key={index}
-                className="flex-1 bg-gradient-to-t from-emerald-500/30 to-emerald-500/80 rounded-t"
+                className="flex-1 bg-gradient-to-t from-emerald-500/30 to-emerald-500/80 rounded-t hover:from-emerald-400/40 hover:to-emerald-400/90 transition-all cursor-pointer"
                 style={{ height: `${height}%` }}
               ></div>
             ))}
