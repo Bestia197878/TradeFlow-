@@ -35,7 +35,20 @@ def run_live(
     interval: int = 60,
     initial_capital: float = 100000,
     api_key: str = None,
-    api_secret: str = None
+    api_secret: str = None,
+    # Strategy parameters from config
+    rsi_period: int = 14,
+    overbought_threshold: float = 65,
+    oversold_threshold: float = 35,
+    use_momentum: bool = True,
+    # Risk parameters from config
+    max_position_size: float = 0.3,
+    max_daily_loss: float = 0.03,
+    max_drawdown: float = 0.10,
+    stop_loss_pct: float = 0.015,
+    take_profit_pct: float = 0.03,
+    trailing_stop: bool = False,
+    trailing_stop_pct: float = 0.01
 ):
     """
     Run live trading with real money.
@@ -81,22 +94,24 @@ def run_live(
     balance = exchange.fetch_balance()
     print(f"Account balance: {balance}")
 
-    # Initialize strategy
+    # Initialize strategy (use config parameters)
     strategy = RSIStrategy(
         initial_capital=initial_capital,
-        rsi_period=14,
-        overbought_threshold=70,
-        oversold_threshold=30,
-        use_momentum=True
+        rsi_period=rsi_period,
+        overbought_threshold=overbought_threshold,
+        oversold_threshold=oversold_threshold,
+        use_momentum=use_momentum
     )
 
-    # Initialize risk management with stricter limits for live trading
+    # Initialize risk management (use config parameters)
     risk_manager = RiskManagement(
-        max_position_size=0.3,  # More conservative
-        max_daily_loss=0.03,   # 3% max daily loss
-        max_drawdown=0.10,     # 10% max drawdown
-        stop_loss_pct=0.015,   # 1.5% stop loss
-        take_profit_pct=0.03   # 3% take profit
+        max_position_size=max_position_size,
+        max_daily_loss=max_daily_loss,
+        max_drawdown=max_drawdown,
+        stop_loss_pct=stop_loss_pct,
+        take_profit_pct=take_profit_pct,
+        trailing_stop=trailing_stop,
+        trailing_stop_pct=trailing_stop_pct
     )
 
     # Configuration
@@ -197,6 +212,23 @@ def main():
             initial_capital = config.get('initial_capital', args.capital)
             api_key = args.api_key or config.get('api_key')
             api_secret = args.api_secret or config.get('api_secret')
+            
+            # Load strategy settings
+            strategy_config = config.get('strategy', {})
+            rsi_period = strategy_config.get('rsi_period', 14)
+            overbought_threshold = strategy_config.get('overbought_threshold', 65)
+            oversold_threshold = strategy_config.get('oversold_threshold', 35)
+            use_momentum = strategy_config.get('use_momentum', True)
+            
+            # Load risk settings
+            risk_config = config.get('risk', {})
+            max_position_size = risk_config.get('max_position_size', 0.3)
+            max_daily_loss = risk_config.get('max_daily_loss', 0.03)
+            max_drawdown = risk_config.get('max_drawdown', 0.10)
+            stop_loss_pct = risk_config.get('stop_loss_pct', 0.015)
+            take_profit_pct = risk_config.get('take_profit_pct', 0.03)
+            trailing_stop = risk_config.get('trailing_stop', False)
+            trailing_stop_pct = risk_config.get('trailing_stop_pct', 0.01)
     else:
         symbol = args.symbol
         timeframe = args.timeframe
@@ -204,6 +236,19 @@ def main():
         initial_capital = args.capital
         api_key = args.api_key
         api_secret = args.api_secret
+        
+        # Default values
+        rsi_period = 14
+        overbought_threshold = 65
+        oversold_threshold = 35
+        use_momentum = True
+        max_position_size = 0.3
+        max_daily_loss = 0.03
+        max_drawdown = 0.10
+        stop_loss_pct = 0.015
+        take_profit_pct = 0.03
+        trailing_stop = False
+        trailing_stop_pct = 0.01
 
     # Check for API credentials
     if not api_key or not api_secret:
@@ -217,7 +262,20 @@ def main():
         interval=interval,
         initial_capital=initial_capital,
         api_key=api_key,
-        api_secret=api_secret
+        api_secret=api_secret,
+        # Strategy parameters
+        rsi_period=rsi_period,
+        overbought_threshold=overbought_threshold,
+        oversold_threshold=oversold_threshold,
+        use_momentum=use_momentum,
+        # Risk parameters
+        max_position_size=max_position_size,
+        max_daily_loss=max_daily_loss,
+        max_drawdown=max_drawdown,
+        stop_loss_pct=stop_loss_pct,
+        take_profit_pct=take_profit_pct,
+        trailing_stop=trailing_stop,
+        trailing_stop_pct=trailing_stop_pct
     )
 
 
