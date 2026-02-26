@@ -24,8 +24,8 @@ interval: 900
 strategy:
   name: rsi
   rsi_period: 14
-  overbought_threshold: 72  # Slightly higher to avoid false signals
-  oversold_threshold: 28   # Slightly lower for better entries
+  overbought_threshold: 65  # Lower threshold to generate more signals
+  oversold_threshold: 35   # Higher threshold to generate more signals
   use_momentum: true       # Filter false signals
   use_divergence: false    # Keep simple for now
 

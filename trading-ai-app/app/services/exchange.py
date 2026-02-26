@@ -114,7 +114,7 @@ class ExchangeService:
         timeframe: str,
         limit: int
     ) -> pd.DataFrame:
-        """Generate simulated OHLCV data."""
+        """Generate simulated OHLCV data with realistic market movements."""
         # Determine number of periods based on timeframe
         tf_minutes = {
             '1m': 1, '5m': 5, '15m': 15, '30m': 30,
@@ -129,18 +129,36 @@ class ExchangeService:
             for i in range(limit)
         ]
 
-        # Generate price data using random walk with trend
+        # Generate price data with trends and volatility clusters
         data = []
         price = self.simulated_price
-
+        
+        # Create trend phases
+        trend_direction = 1  # 1 = up, -1 = down
+        trend_duration = 0
+        
         for i in range(limit):
-            # Add some volatility
-            change = random.gauss(0, 0.02) * price
+            # Change trend occasionally (every 20-50 bars)
+            if trend_duration <= 0:
+                trend_direction = random.choice([-1, 1])
+                trend_duration = random.randint(20, 50)
+            trend_duration -= 1
+            
+            # Add trend component + random component
+            trend_change = trend_direction * random.uniform(0.001, 0.003)
+            random_change = random.gauss(0, 0.015)  # 1.5% std dev
+            
+            # Occasionally add spike (5% chance)
+            if random.random() < 0.05:
+                random_change += random.choice([-1, 1]) * random.uniform(0.02, 0.05)
+            
+            change = (trend_change + random_change) * price
             price = max(price + change, price * 0.5)  # Prevent negative prices
 
             # Generate OHLC
-            high = price * (1 + abs(random.gauss(0, 0.01)))
-            low = price * (1 - abs(random.gauss(0, 0.01)))
+            volatility = abs(random.gauss(0, 0.01))
+            high = price * (1 + volatility)
+            low = price * (1 - volatility)
             open_price = random.uniform(low, high)
             close_price = random.uniform(low, high)
             volume = random.uniform(1000, 10000)
