@@ -1,0 +1,34 @@
+# Trading AI Application Requirements
+
+# Core dependencies
+numpy>=1.21.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+
+# Deep Learning (optional but recommended)
+tensorflow>=2.13.0
+torch>=2.0.0
+
+# NLP for sentiment analysis (optional)
+transformers>=4.30.0
+torch>=2.0.0
+
+# Exchange API
+ccxt>=3.0.0
+
+# Configuration
+pyyaml>=6.0
+
+# Development
+pytest>=7.4.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.4.0
+
+# Data visualization (optional)
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Utils
+python-dotenv>=1.0.0
+requests>=2.31.0

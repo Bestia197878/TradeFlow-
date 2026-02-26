@@ -1,0 +1,57 @@
+# Live Trading Configuration
+# WARNING: This configuration is for live trading with real money
+
+# Exchange settings
+exchange:
+  id: binance
+  testnet: false
+  simulate: false
+
+# API credentials (use environment variables in production)
+# api_key: YOUR_API_KEY
+# api_secret: YOUR_API_SECRET
+
+# Trading pair
+symbol: BTC/USDT
+timeframe: 1h
+
+# Trading settings
+initial_capital: 100000
+commission: 0.001
+slippage: 0.0005
+
+# Update interval (seconds)
+interval: 60
+
+# Strategy settings
+strategy:
+  name: rsi
+  rsi_period: 14
+  overbought_threshold: 70
+  oversold_threshold: 30
+  use_momentum: true
+  use_divergence: false
+
+# Risk management - More conservative for live trading
+risk:
+  max_position_size: 0.3      # 30% of capital (conservative)
+  max_daily_loss: 0.03      # 3% max daily loss
+  max_drawdown: 0.10        # 10% max drawdown
+  max_leverage: 1.0         # No leverage
+  stop_loss_pct: 0.015       # 1.5% stop loss
+  take_profit_pct: 0.03    # 3% take profit
+  trailing_stop: true
+  trailing_stop_pct: 0.012   # 1.2% trailing stop
+
+# Model settings (if using AI models)
+models:
+  use_lstm: false
+  use_rf: false
+  use_rl: false
+  use_sentiment: false
+
+# Notification settings
+notifications:
+  enabled: false
+  webhook_url: ""
+  email: ""

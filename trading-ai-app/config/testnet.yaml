@@ -1,0 +1,46 @@
+# Testnet Configuration
+
+# Exchange settings
+exchange:
+  id: binance
+  testnet: true
+  simulate: true
+
+# Trading pair
+symbol: BTC/USDT
+timeframe: 1h
+
+# Trading settings
+initial_capital: 100000
+commission: 0.001
+slippage: 0.0005
+
+# Update interval (seconds)
+interval: 60
+
+# Strategy settings
+strategy:
+  name: rsi
+  rsi_period: 14
+  overbought_threshold: 70
+  oversold_threshold: 30
+  use_momentum: true
+  use_divergence: false
+
+# Risk management
+risk:
+  max_position_size: 0.5      # 50% of capital
+  max_daily_loss: 0.05      # 5% max daily loss
+  max_drawdown: 0.15        # 15% max drawdown
+  max_leverage: 1.0         # No leverage
+  stop_loss_pct: 0.02       # 2% stop loss
+  take_profit_pct: 0.05    # 5% take profit
+  trailing_stop: false
+  trailing_stop_pct: 0.015
+
+# Model settings (if using AI models)
+models:
+  use_lstm: false
+  use_rf: false
+  use_rl: false
+  use_sentiment: false
