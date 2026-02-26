@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Template",
-  description: "A minimal Next.js starter template",
+  title: "TradeFlow - AI Trading Dashboard",
+  description: "Minimalist AI-powered trading dashboard",
 };
 
 export default function RootLayout({
