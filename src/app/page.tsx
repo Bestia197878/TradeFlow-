@@ -518,19 +518,19 @@ export default function Dashboard() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm text-neutral-400">Max Position Size (%)</label>
-                  <input type="number" defaultValue="20" className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
+                  <input type="number" defaultValue="25" className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
                 </div>
                 <div>
                   <label className="text-sm text-neutral-400">Stop Loss (%)</label>
-                  <input type="number" defaultValue="5" className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
+                  <input type="number" defaultValue="1" className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
                 </div>
                 <div>
                   <label className="text-sm text-neutral-400">Take Profit (%)</label>
-                  <input type="number" defaultValue="10" className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
+                  <input type="number" defaultValue="2" className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
                 </div>
                 <div>
                   <label className="text-sm text-neutral-400">Daily Loss Limit (%)</label>
-                  <input type="number" defaultValue="3" className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
+                  <input type="number" defaultValue="2" className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
                 </div>
               </div>
               <button className="mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors">

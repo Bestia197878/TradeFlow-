@@ -16,7 +16,7 @@ symbol: BTC/USDT
 timeframe: 1h
 
 # Trading settings
-initial_capital: 100000
+initial_capital: 40
 commission: 0.001
 slippage: 0.0005
 
@@ -32,16 +32,16 @@ strategy:
   use_momentum: true
   use_divergence: false
 
-# Risk management - More conservative for live trading
+# Risk management - Very conservative for small wallet (40 USDT)
 risk:
-  max_position_size: 0.3      # 30% of capital (conservative)
-  max_daily_loss: 0.03      # 3% max daily loss
-  max_drawdown: 0.10        # 10% max drawdown
+  max_position_size: 0.25      # 25% of capital ($10 max per position)
+  max_daily_loss: 0.02      # 2% max daily loss ($0.80)
+  max_drawdown: 0.05        # 5% max drawdown ($2)
   max_leverage: 1.0         # No leverage
-  stop_loss_pct: 0.015       # 1.5% stop loss
-  take_profit_pct: 0.03    # 3% take profit
+  stop_loss_pct: 0.01       # 1% stop loss
+  take_profit_pct: 0.02    # 2% take profit
   trailing_stop: true
-  trailing_stop_pct: 0.012   # 1.2% trailing stop
+  trailing_stop_pct: 0.008   # 0.8% trailing stop
 
 # Model settings (if using AI models)
 models:
