@@ -501,11 +501,11 @@ export default function Dashboard() {
               <div className="space-y-4">
                 <div>
                   <label className="text-sm text-neutral-400">Binance API Key</label>
-                  <input type="password" value="••••••••••••••••" className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
+                  <input type="password" value="••••••••••••••••" readOnly className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
                 </div>
                 <div>
                   <label className="text-sm text-neutral-400">Binance Secret Key</label>
-                  <input type="password" value="••••••••••••••••" className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
+                  <input type="password" value="••••••••••••••••" readOnly className="w-full mt-2 p-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white" />
                 </div>
                 <button className="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded-lg transition-colors">
                   Update Keys
