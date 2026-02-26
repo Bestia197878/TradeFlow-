@@ -34,7 +34,19 @@ def run_testnet(
     timeframe: str = "1h",
     interval: int = 60,
     initial_capital: float = 100000,
-    paper_trading: bool = True
+    paper_trading: bool = True,
+    # Config-based parameters
+    rsi_period: int = 14,
+    overbought_threshold: float = 70,
+    oversold_threshold: float = 30,
+    use_momentum: bool = True,
+    max_position_size: float = 0.5,
+    max_daily_loss: float = 0.05,
+    max_drawdown: float = 0.10,
+    stop_loss_pct: float = 0.02,
+    take_profit_pct: float = 0.04,
+    trailing_stop: bool = False,
+    trailing_stop_pct: float = 0.015
 ):
     """
     Run trading on testnet.
@@ -66,22 +78,24 @@ def run_testnet(
         simulate=paper_trading
     )
 
-    # Initialize strategy
+    # Initialize strategy (use config parameters)
     strategy = RSIStrategy(
         initial_capital=initial_capital,
-        rsi_period=14,
-        overbought_threshold=70,
-        oversold_threshold=30,
-        use_momentum=True
+        rsi_period=rsi_period,
+        overbought_threshold=overbought_threshold,
+        oversold_threshold=oversold_threshold,
+        use_momentum=use_momentum
     )
 
-    # Initialize risk management
+    # Initialize risk management (use config parameters)
     risk_manager = RiskManagement(
-        max_position_size=0.5,
-        max_daily_loss=0.05,
-        max_drawdown=0.15,
-        stop_loss_pct=0.02,
-        take_profit_pct=0.05
+        max_position_size=max_position_size,
+        max_daily_loss=max_daily_loss,
+        max_drawdown=max_drawdown,
+        stop_loss_pct=stop_loss_pct,
+        take_profit_pct=take_profit_pct,
+        trailing_stop=trailing_stop,
+        trailing_stop_pct=trailing_stop_pct
     )
 
     # Configuration
@@ -177,19 +191,61 @@ def main():
             interval = config.get('interval', args.interval)
             initial_capital = config.get('initial_capital', args.capital)
             paper_trading = not args.live
+            
+            # Load strategy settings
+            strategy_config = config.get('strategy', {})
+            rsi_period = strategy_config.get('rsi_period', 14)
+            overbought_threshold = strategy_config.get('overbought_threshold', 70)
+            oversold_threshold = strategy_config.get('oversold_threshold', 30)
+            use_momentum = strategy_config.get('use_momentum', True)
+            
+            # Load risk settings
+            risk_config = config.get('risk', {})
+            max_position_size = risk_config.get('max_position_size', 0.5)
+            max_daily_loss = risk_config.get('max_daily_loss', 0.05)
+            max_drawdown = risk_config.get('max_drawdown', 0.10)
+            stop_loss_pct = risk_config.get('stop_loss_pct', 0.02)
+            take_profit_pct = risk_config.get('take_profit_pct', 0.04)
+            trailing_stop = risk_config.get('trailing_stop', False)
+            trailing_stop_pct = risk_config.get('trailing_stop_pct', 0.015)
     else:
         symbol = args.symbol
         timeframe = args.timeframe
         interval = args.interval
         initial_capital = args.capital
         paper_trading = not args.live
+        
+        # Default values
+        rsi_period = 14
+        overbought_threshold = 70
+        oversold_threshold = 30
+        use_momentum = True
+        max_position_size = 0.5
+        max_daily_loss = 0.05
+        max_drawdown = 0.10
+        stop_loss_pct = 0.02
+        take_profit_pct = 0.04
+        trailing_stop = False
+        trailing_stop_pct = 0.015
 
     run_testnet(
         symbol=symbol,
         timeframe=timeframe,
         interval=interval,
         initial_capital=initial_capital,
-        paper_trading=paper_trading
+        paper_trading=paper_trading,
+        # New parameters from config
+        rsi_period=rsi_period,
+        overbought_threshold=overbought_threshold,
+        oversold_threshold=oversold_threshold,
+        use_momentum=use_momentum,
+        max_position_size=max_position_size,
+        max_daily_loss=max_daily_loss,
+        max_drawdown=max_drawdown,
+        stop_loss_pct=stop_loss_pct,
+        take_profit_pct=take_profit_pct,
+        trailing_stop=trailing_stop,
+        trailing_stop_pct=trailing_stop_pct
     )
 
 

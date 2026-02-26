@@ -159,9 +159,11 @@ class RSIStrategy(BaseStrategy):
     ) -> Signal:
         """Generate signal based on RSI, momentum, and divergence."""
 
-        # Strong buy signal: Oversold + bullish divergence
+        # Strong buy signal: Oversold
         if rsi < self.oversold_threshold:
-            confidence = (self.oversold_threshold - rsi) / self.oversold_threshold
+            # Higher confidence for more oversold
+            distance = self.oversold_threshold - rsi
+            confidence = min(0.95, 0.5 + distance / 20)  # Base 0.5 + distance bonus
 
             if divergence == 'bullish':
                 confidence = min(1.0, confidence + 0.2)
@@ -173,7 +175,7 @@ class RSIStrategy(BaseStrategy):
 
             # Check momentum for confirmation
             if momentum is not None and momentum > 0:
-                confidence = min(1.0, confidence + 0.1)
+                confidence = min(0.95, confidence + 0.1)
                 return Signal(
                     'buy',
                     confidence=confidence,
@@ -186,9 +188,11 @@ class RSIStrategy(BaseStrategy):
                 reason='Oversold'
             )
 
-        # Strong sell signal: Overbought + bearish divergence
+        # Strong sell signal: Overbought
         elif rsi > self.overbought_threshold:
-            confidence = (rsi - self.overbought_threshold) / (100 - self.overbought_threshold)
+            # Higher confidence for more overbought
+            distance = rsi - self.overbought_threshold
+            confidence = min(0.95, 0.5 + distance / 20)  # Base 0.5 + distance bonus
 
             if divergence == 'bearish':
                 confidence = min(1.0, confidence + 0.2)
@@ -200,7 +204,7 @@ class RSIStrategy(BaseStrategy):
 
             # Check momentum for confirmation
             if momentum is not None and momentum < 0:
-                confidence = min(1.0, confidence + 0.1)
+                confidence = min(0.95, confidence + 0.1)
                 return Signal(
                     'sell',
                     confidence=confidence,
@@ -218,7 +222,7 @@ class RSIStrategy(BaseStrategy):
             # Approaching oversold with positive momentum
             return Signal(
                 'buy',
-                confidence=0.4,
+                confidence=0.6,
                 reason='RSI approaching oversold with positive momentum'
             )
 
@@ -226,7 +230,7 @@ class RSIStrategy(BaseStrategy):
             # Approaching overbought with negative momentum
             return Signal(
                 'sell',
-                confidence=0.4,
+                confidence=0.6,
                 reason='RSI approaching overbought with negative momentum'
             )
 

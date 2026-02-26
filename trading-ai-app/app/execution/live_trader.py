@@ -201,6 +201,13 @@ class LiveTrader:
         self.trades.append(order)
         self.order_history.append(order)
 
+        # Update risk manager with new position
+        if self.risk_manager and order['status'] == 'filled':
+            self.risk_manager.update_position(
+                entry_price=order['fill_price'],
+                position_size=order['quantity']
+            )
+
         # Trigger callback
         if self.on_trade:
             self.on_trade(order)
