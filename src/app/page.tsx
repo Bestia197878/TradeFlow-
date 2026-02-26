@@ -30,6 +30,7 @@ const recentTrades = [
 export default function Dashboard() {
   const [activeNav, setActiveNav] = useState("dashboard");
   const [chartPeriod, setChartPeriod] = useState("1W");
+  const [isTrading, setIsTrading] = useState(false);
 
   // Dynamic chart data based on period
   const chartData: Record<string, number[]> = {
@@ -90,6 +91,24 @@ export default function Dashboard() {
             <p className="text-neutral-500 text-sm mt-1">Welcome back, Trader</p>
           </div>
           <div className="flex items-center gap-4">
+            {/* Trade Control Buttons */}
+            {!isTrading ? (
+              <button
+                onClick={() => setIsTrading(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors"
+              >
+                <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                Trade ON
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsTrading(false)}
+                className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-sm font-medium rounded-lg transition-colors"
+              >
+                <span className="w-2 h-2 bg-white rounded-full"></span>
+                Trade STOP
+              </button>
+            )}
             <button className="p-2 text-neutral-400 hover:text-white transition-colors">
               <span className="text-xl">🔔</span>
             </button>
