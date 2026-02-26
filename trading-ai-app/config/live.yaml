@@ -24,32 +24,32 @@ slippage: 0.0005
 # Update interval (seconds) - Check every 15 minutes
 interval: 900
 
-# Strategy settings - Optimized for small capital
+# Strategy settings - Optimized for PROFITABILITY
 strategy:
-  name: rsi
+  name: ai_ensemble  # Use AI ensemble for better signals
   rsi_period: 14
-  overbought_threshold: 65  # Lower threshold to generate more signals
-  oversold_threshold: 35   # Higher threshold to generate more signals
-  use_momentum: true       # Filter false signals
-  use_divergence: false    # Keep simple for now
+  overbought_threshold: 55  # Lower = more sell signals (was 65)
+  oversold_threshold: 45   # Higher = more buy signals (was 35)
+  use_momentum: false      # DISABLED - too restrictive, blocks trades
+  use_divergence: false
 
 # Risk management - Optimized for $40 USDT
 risk:
-  max_position_size: 0.50      # 50% of capital ($20 per trade - above minimum)
-  max_daily_loss: 0.05      # 5% max daily loss ($2) - allows more flexibility
-  max_drawdown: 0.10        # 10% max drawdown ($4) - don't lose too much
-  max_leverage: 1.0         # No leverage - too risky for small capital
-  stop_loss_pct: 0.02       # 2% stop loss - wider to avoid normal volatility
-  take_profit_pct: 0.04    # 4% take profit - need bigger moves for profit
+  max_position_size: 0.70      # 70% of capital - more aggressive for small wallet
+  max_daily_loss: 0.10      # 10% max daily loss ($4) - allow more trades
+  max_drawdown: 0.20        # 20% max drawdown ($8) - don't stop too early
+  max_leverage: 1.0
+  stop_loss_pct: 0.015       # 1.5% tighter stop loss
+  take_profit_pct: 0.03     # 3% take profit - smaller gains, more often
   trailing_stop: true
-  trailing_stop_pct: 0.015   # 1.5% trailing stop
+  trailing_stop_pct: 0.01   # 1% trailing stop
 
-# Model settings (if using AI models)
+# Model settings - ENABLE AI models for better signals
 models:
-  use_lstm: false
-  use_rf: false
-  use_rl: false
-  use_sentiment: false
+  use_lstm: true
+  use_rf: true
+  use_rl: true
+  use_sentiment: true
 
 # Notification settings
 notifications:

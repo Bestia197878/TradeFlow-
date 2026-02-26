@@ -12,6 +12,7 @@ import time
 import signal
 
 from app.strategies import RSIStrategy
+from app.strategies.ai_ensemble import AIEnsembleStrategy
 from app.services.exchange import ExchangeService
 from app.services.risk import RiskManagement
 from app.execution.live_trader import LiveTrader
@@ -36,6 +37,7 @@ def run_testnet(
     initial_capital: float = 100000,
     paper_trading: bool = True,
     # Config-based parameters
+    strategy_name: str = "rsi",
     rsi_period: int = 14,
     overbought_threshold: float = 70,
     oversold_threshold: float = 30,
@@ -78,14 +80,26 @@ def run_testnet(
         simulate=paper_trading
     )
 
-    # Initialize strategy (use config parameters)
-    strategy = RSIStrategy(
-        initial_capital=initial_capital,
-        rsi_period=rsi_period,
-        overbought_threshold=overbought_threshold,
-        oversold_threshold=oversold_threshold,
-        use_momentum=use_momentum
-    )
+    # Initialize strategy based on config
+    if strategy_name == "ai_ensemble":
+        print("\nUsing AI Ensemble Strategy...")
+        strategy = AIEnsembleStrategy(
+            initial_capital=initial_capital,
+            rsi_period=rsi_period,
+            overbought_threshold=overbought_threshold,
+            oversold_threshold=oversold_threshold,
+            use_momentum=use_momentum,
+            max_position_size=max_position_size
+        )
+    else:
+        print("\nUsing RSI Strategy...")
+        strategy = RSIStrategy(
+            initial_capital=initial_capital,
+            rsi_period=rsi_period,
+            overbought_threshold=overbought_threshold,
+            oversold_threshold=oversold_threshold,
+            use_momentum=use_momentum
+        )
 
     # Initialize risk management (use config parameters)
     risk_manager = RiskManagement(
@@ -179,6 +193,11 @@ def main():
     parser.add_argument("--capital", type=float, default=100000, help="Initial capital")
     parser.add_argument("--live", action="store_true", help="Use real money (not paper trading)")
     parser.add_argument("--config", type=str, help="Config file (YAML)")
+    parser.add_argument("--strategy", type=str, default="rsi", help="Strategy name: rsi or ai_ensemble")
+    
+    # RSI thresholds
+    parser.add_argument("--overbought", type=float, default=55, help="RSI overbought threshold")
+    parser.add_argument("--oversold", type=float, default=45, help="RSI oversold threshold")
 
     args = parser.parse_args()
 
@@ -194,6 +213,7 @@ def main():
             
             # Load strategy settings
             strategy_config = config.get('strategy', {})
+            strategy_name = strategy_config.get('name', 'rsi')
             rsi_period = strategy_config.get('rsi_period', 14)
             overbought_threshold = strategy_config.get('overbought_threshold', 70)
             oversold_threshold = strategy_config.get('oversold_threshold', 30)
@@ -216,6 +236,7 @@ def main():
         paper_trading = not args.live
         
         # Default values
+        strategy_name = "rsi"
         rsi_period = 14
         overbought_threshold = 70
         oversold_threshold = 30
@@ -235,6 +256,7 @@ def main():
         initial_capital=initial_capital,
         paper_trading=paper_trading,
         # New parameters from config
+        strategy_name=strategy_name,
         rsi_period=rsi_period,
         overbought_threshold=overbought_threshold,
         oversold_threshold=oversold_threshold,
